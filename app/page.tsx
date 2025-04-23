@@ -1,7 +1,14 @@
-"use client";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-export default function Home() {
+import { getServerSession } from "next-auth";
+import { option } from "./api/auth/[...nextauth]/options";
+import { redirect } from "next/navigation";
+export default async function Home() {
+  const data = await getServerSession(option);
+
+  if (data?.user) {
+    redirect("/dashboard");
+  }
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="flex flex-col items-center justify-center">
@@ -15,7 +22,7 @@ export default function Home() {
         <Link className="underline rounded-md" href="/auth/login">
           Login
         </Link>
-        <button onClick={() => signOut()}>Sign Out</button>
+        {/* <button onClick={() => signOut()}>Sign Out</button> */}
       </div>
     </div>
   );

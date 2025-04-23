@@ -20,7 +20,8 @@ export async function POST(request: Request) {
       .select()
       .from(users)
       .where(eq(users.email, email));
-    if (existingUser) {
+
+    if (existingUser.length > 0) {
       return NextResponse.json(
         { message: "User already exists" },
         { status: 400 }
